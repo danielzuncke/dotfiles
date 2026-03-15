@@ -1,0 +1,36 @@
+[user]
+	name = Daniel Zuncke
+	email = daniel.zuncke@gmail.com
+	signingkey = A2A8C43610B6B485
+[commit]
+	gpgSign = true
+[core]
+	excludesfile = "~/.config/git/ignore"
+[init]
+	defaultBranch = main
+[credential]
+	helper = cache --timeout=18000
+[merge]
+	conflictStyle = zdiff3
+[status]
+	short = true
+	branch = true
+[alias]
+	st = status
+	br = branch
+	ch = checkout
+	difw = diff --word-diff
+	lg1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)' --all
+	lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
+	lg = lg1
+[rebase]
+	updateRefs = true
+
+# Let chezmoi generate settings based on programs installed, ex:
+# [core]
+# editor = nvim -f
+[include]
+	path = "~/.config/git/config_template"
+# Stored encrypted in chezmoi:
+[include]
+	path = "~/.config/git/config_private"

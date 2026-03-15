@@ -1,0 +1,18 @@
+# vim: set filetype=gitconfig :
+
+# This file is managed through chezmoi: check the file with the same name and
+# .tmpl extension.
+
+[core]
+{{- if lookPath "nvim" }}
+	editor = nvim -f
+{{- else if lookPath "vim" }}
+	editor = vim -f
+{{- end }}
+{{- if lookPath "delta" }}
+	pager = delta
+{{- end }}
+[interactive]
+{{- if lookPath "delta" }}
+	diffFilter = delta --color-only
+{{- end }}
