@@ -228,6 +228,7 @@ if [ -f "${HOME}/dlang/install.sh" ]; then
 		if [ $? -eq 0 ] && [ -n "tmp" ]; then
 			PATH="$(dirname "$tmp"):${PATH}"
 		fi
+		tmp=
 	done
 fi
 if command -v ldc2 >/dev/null; then
