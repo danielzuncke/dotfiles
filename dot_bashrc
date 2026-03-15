@@ -54,7 +54,7 @@ elif [ -f "/etc/os-release" ]; then
 		arch)   OS_COLOR="01;36" ;; # cyan
 		*)      OS_COLOR="01;32" ;; # green
 	esac
-else 
+else
 	MY_OS="unknown"
 	OS_COLOR="01;31"
 fi
@@ -131,6 +131,16 @@ if [ -d "$HOME/.local/bin" ]; then
 	export PATH="$HOME/.local/bin:$PATH"
 fi
 
+# Adjust PS1 for subshells that would be easy to forget (don't show multiple
+# times in nested shells).
+if [ "$CHEZMOI" = "1" ]; then
+	case "$PS1" in
+		"(chezmoi)"*) ;;
+		*)
+			PS1="(chezmoi)${PS1}";;
+	esac
+fi
+
 # Indicate last command success by color.  Removes last 3 chars from
 # PS1: '<PS1...> $ ' => becomes something like '<PS1...>'+'\n$ '
 ps1_prompt() {
@@ -187,9 +197,6 @@ fi
 
 if [ -d "${HOME}/dev" ]; then
 	alias cdd='cd "${HOME}/dev"'
-	if [ -d "${HOME}/dev/tmp" ]; then
-		alias cdt='cd "${HOME}/dev/tmp"'
-	fi
 fi
 if command -v tmux >/dev/null; then
 	# Add shortcuts for
