@@ -1,7 +1,7 @@
 #
 # NOTE:
 # Don't use chezmoi templates for .bashrc as I want to be able to edit this
-# without caveats.  Must still be platform and device generic.
+# without caveats.  Must still be generic.
 # If the convenience of templates is nice, use additional files and source them
 # here.
 #
