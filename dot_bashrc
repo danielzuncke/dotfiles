@@ -210,6 +210,7 @@ if command -v chezmoi >/dev/null; then
 			s) cmd="status";;
 			a) cmd="add";;
 			r) cmd="re-add";;
+      f) cmd="forget";;
 			d) cmd="diff";;
 			l) cmd="list";;
 			m) cmd="managed";;
@@ -220,6 +221,7 @@ ch overwites the first arg if it's one of these: chezmoi [arg] <remaining args>
 s  status
 a  add
 r  re-add
+f  forget
 d  diff
 l  list
 m  managed
