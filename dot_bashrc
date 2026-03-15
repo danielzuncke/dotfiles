@@ -196,7 +196,44 @@ elif command -v bat >/dev/null; then
 fi
 
 if command -v chezmoi >/dev/null; then
-	alias ch='chezmoi'
+	# Since chezmoi doesn't support command alias yet:
+	# alias ch='chezmoi'
+	alias ch-h='echo "ch $@ maps: s-status a-add r-re-add "'
+	ch() {
+		if [ $# -eq 0 ]; then
+			chezmoi
+			return $?
+		fi
+		local cmd="$1"
+		shift
+		case "$cmd" in
+			s) cmd="status";;
+			a) cmd="add";;
+			r) cmd="re-add";;
+			d) cmd="diff";;
+			l) cmd="list";;
+			m) cmd="managed";;
+			p) cmd="source-path";;
+			h)
+				cat <<'EOF'
+ch overwites the first arg if it's one of these: chezmoi [arg] <remaining args>
+s  status
+a  add
+r  re-add
+d  diff
+l  list
+m  managed
+p  source-path
+EOF
+				return $?
+		esac
+		command chezmoi "$cmd" "$@"
+	}
+	if command -v git >/dev/null; then
+		alias dot='git -C "$(chezmoi source-path)"'
+		alias dots='git -C "$(chezmoi source-path)" status'
+		alias dotl='git -C "$(chezmoi source-path)" lg' # log + format
+	fi
 fi
 
 if [ -d "${HOME}/dev" ]; then
