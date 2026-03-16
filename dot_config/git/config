@@ -34,3 +34,6 @@
 # Stored encrypted in chezmoi:
 [include]
 	path = "~/.config/git/config_private"
+
+[include]
+	path = "~/.config/git/config_local"
