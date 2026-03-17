@@ -312,12 +312,6 @@ if [ -f "${HOME}/.bashrc_local_late" ]; then
 	. "${HOME}/.bashrc_local_late"
 fi
 
-# If not running interactively, don't do anything
-case $- in
-	*i*) ;;
-	*) return;;
-esac
-
 #
 # Must come after sourcing scripts to prevent braking dependencies on common
 # programs.
