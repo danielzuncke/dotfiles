@@ -11,6 +11,17 @@ if [ -f "$tmp" ]; then
 	. "$tmp"
 fi
 tmp=
+case "${dz_os_name,,}" in
+	mac) eval `/usr/lib/path_helper -s`;;
+	*);;
+esac
+
+#
+# Local settings to load early (not tracked in dotfiles).
+#
+if [ -f "${HOME}/.bashrc_local_early" ]; then
+	. "${HOME}/.bashrc_local_early"
+fi
 
 # If not running interactively, don't do anything
 case $- in
@@ -289,16 +300,27 @@ if command -v tmux >/dev/null; then
 			tmux "$@"
 		fi
 	}
-	if [ -f "${HOME}/.bashrc_tmux" ]; then
-		source "${HOME}/.bashrc_tmux"
-	fi
 fi
 if command -v fx >/dev/null; then
 	export FX_NO_MOUSE=
 fi
 
 #
-# Do a lil' bit of trolling
+# Local settings to load late (not tracked in dotfiles).
+#
+if [ -f "${HOME}/.bashrc_local_late" ]; then
+	. "${HOME}/.bashrc_local_late"
+fi
+
+# If not running interactively, don't do anything
+case $- in
+	*i*) ;;
+	*) return;;
+esac
+
+#
+# Must come after sourcing scripts to prevent braking dependencies on common
+# programs.
 #
 
 if command -v 'batgrep' >/dev/null; then
