@@ -8,6 +8,6 @@ encryption = "age"
 
 {{- if stat $tagsFile -}}
 	{{- $tags = include $tagsFile | trim | splitList "," -}}
-{{- end -}}
+{{- end }}
 [data]
 	tags = {{ $tags | toJson }}
