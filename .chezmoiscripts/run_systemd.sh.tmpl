@@ -1,0 +1,24 @@
+{{/* vim: set filetype=gotmpl : */}}
+
+{{- if eq .chezmoi.os "linux" -}}
+#!/bin/sh
+
+# loginctl linger means units for this user stay up even if the user goes off.
+
+# systemd check
+if ! command -v loginctl >/dev/null; then
+	echo "ABC"
+	#exit 0
+fi
+
+user_name="{{ .chezmoi.username }}"
+is_linger="$(loginctl show-user "$user_name" --property=Linger 2>/dev/null)"
+if [ "$is_linger" != "Linger=yes" ]; then
+	cat <<-'EOF'
+Systemd lingering is not enabled for user (units get terminated on logoff).
+To enable: sudo loginctl enable-linger "$user_name"
+This may have unforseen consequences such as daemons not being terminated and
+running forever (ex. gpg).
+EOF
+fi
+{{- end -}}
