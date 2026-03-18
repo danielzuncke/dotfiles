@@ -2,3 +2,12 @@ encryption = "age"
 [age]
 	identity = "~/.config/age/chezmoi_key.txt"
 	recipient = 'age17n59fdc2mvzjv26vfvj25d4r8yhllpta5l2rvz6xrz346a9ersnsezalrj'
+
+{{- $tagsFile := joinPath .chezmoi.sourceDir "device_tags.local" -}}
+{{- $tags := list -}}
+
+{{- if stat $tagsFile -}}
+	{{- $tags = include $tagsFile | trim | splitList "," -}}
+{{- end -}}
+[data]
+	tags = {{ $tags | toJson }}

@@ -7,6 +7,22 @@
 # here.
 #
 
+# Add dir to path with check that the dir exists and that it isn't in already
+# in path.
+# Returns 0 if the dir existed.
+add_to_path() {
+	if [ "$#" -eq 1 ]; then
+		if [ -d "$1" ]; then
+			case ":${PATH}:" in
+				*":${1}:"*) ;; # already in path
+				*) export PATH="${1}:${PATH}"
+			esac
+			return 0
+		fi
+	fi
+	return 1
+}
+
 tmp="${HOME}/.bashrc_chezmoi_generated" 
 if [ -f "$tmp" ]; then
 	. "$tmp"
@@ -141,9 +157,7 @@ case "$XDG_DATA_DIRS" in
 esac
 
 # Set PATH so it includes user's private bin if it exists.
-if [ -d "$HOME/.local/bin" ]; then
-	export PATH="$HOME/.local/bin:$PATH"
-fi
+add_to_path "$HOME/.local/bin"
 
 # Extra bin's
 
@@ -151,7 +165,7 @@ fi
 if [ -f "${HOME}/dlang/install.sh" ]; then
 	for c in ldc dmd; do
 		tmp="$("${HOME}/dlang/install.sh" get-path "$c" 2>/dev/null)"
-		if [ $? -eq 0 ] && [ -n "tmp" ]; then
+		if [ "$?" -eq 0 ] && [ -n "tmp" ]; then
 			PATH="$(dirname "$tmp"):${PATH}"
 		fi
 		tmp=
@@ -160,21 +174,10 @@ fi
 if command -v ldc2 >/dev/null; then
 	alias ldc=ldc2
 fi
+
 # Go
-if [ -d "${HOME}/go/bin" ]; then
-	PATH="${HOME}/go/bin:${PATH}"
-fi
-# pyenv configuration
-if [ -d "${HOME}/.pyenv" ]; then
-	export PYENV_ROOT="$HOME/.pyenv"
-	if [ -d "${PYENV_ROOT}/bin" ]; then
-		export PATH="${PYENV_ROOT}/bin:$PATH"
-		eval "$(pyenv init -)"
-	fi
-else
-	# only one with notification, because this is a WIP
-	echo "missing '${HOME}/.pyenv/'; remove this section from .bashrc?" >&2
-fi
+# Set GOPATH for local packages in .config with: go env -w "${XDG_DATA_HOME}/go"
+add_to_path "/usr/local/go/bin"
 
 # Adjust PS1 for subshells that would be easy to forget (don't show multiple
 # times in nested shells).
