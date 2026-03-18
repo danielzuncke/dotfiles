@@ -4,6 +4,11 @@
 #!/bin/sh
 
 # loginctl linger means units for this user stay up even if the user goes off.
+#
+# This can also help in situations when the login is not recognized correctly,
+# as the user "is on" if the device is on => for me: fix /run/user/... not
+# being created as WSL didn't use a login shell => no runtime (login session)
+# dir was created.
 
 # systemd check
 if ! command -v loginctl >/dev/null; then
