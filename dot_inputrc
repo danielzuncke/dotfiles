@@ -1,2 +1,3 @@
+# vim: set filetype=readline :
 set completion-ignore-case On
 set enable-bracketed-paste On

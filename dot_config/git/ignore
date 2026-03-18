@@ -1,2 +1,4 @@
+# vim: set filetype=gitignore :
+
 .DS_Store
 .vscode

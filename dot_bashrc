@@ -1,4 +1,5 @@
-#
+# vim: set filetype=bash :
+
 # NOTE:
 # Don't use chezmoi templates for .bashrc as I want to be able to edit this
 # without caveats.  Must still be generic.
