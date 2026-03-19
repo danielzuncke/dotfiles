@@ -1,3 +1,5 @@
+Adjusted from:
+
 # kickstart.nvim
 
 ## Introduction
