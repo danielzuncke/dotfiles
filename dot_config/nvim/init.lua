@@ -604,9 +604,25 @@ require('lazy').setup({
         -- <c-k>: Toggle signature help
         --
         -- See :h blink-cmp-config-keymap for defining your own keymap
-        preset = 'default',
-        ['<Tab>'] = { 'fallback' },
-        ['<S-Tab>'] = { 'fallback' },
+        -- NOTE: 3 lines below were my previous settings:
+        -- preset = 'default',
+        -- ['<Tab>'] = { 'fallback' },
+        -- ['<S-Tab>'] = { 'fallback' },
+
+        preset = 'none',
+        ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
+        ['<C-e>'] = { 'hide', 'fallback' },
+        ['<C-y>'] = { 'select_and_accept', 'fallback' },
+
+        ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
+        ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
+
+        ['<C-n>'] = { 'select_next', 'fallback_to_mappings' },
+        ['<C-p>'] = { 'select_prev', 'fallback_to_mappings' },
+        ['<C-N>'] = { 'snippet_forward', 'fallback_to_mappings' },
+        ['<C-P>'] = { 'snippet_backward', 'fallback_to_mappings' },
+
+        ['<C-k>'] = { 'show_signature', 'hide_signature', 'fallback' },
 
         -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
