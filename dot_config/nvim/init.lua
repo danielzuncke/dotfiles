@@ -620,7 +620,7 @@ require('lazy').setup({
         ['<C-n>'] = { 'select_next', 'fallback_to_mappings' },
         ['<C-p>'] = { 'select_prev', 'fallback_to_mappings' },
         ['<C-N>'] = { 'snippet_forward', 'fallback_to_mappings' },
-        ['<C-P>'] = { 'snippet_backward', 'fallback_to_mappings' },
+        ['<C-P>'] = { 'snippet_backward', 'fallback_to_mappings' }, -- used to open command search in windows terminal
 
         ['<C-k>'] = { 'show_signature', 'hide_signature', 'fallback' },
 
@@ -755,7 +755,8 @@ require('lazy').setup({
         enable = true,
         additional_vim_regex_highlighting = { 'ruby' },
       },
-      indent = { enable = true, disable = { 'ruby' } },
+      -- TODO: had indent problem with go on other device, see if this fixes it
+      indent = { enable = true, disable = { 'd', 'go', 'ruby' } },
     },
     -- TODO: test these and enable or remove this block.
     -- There are additional nvim-treesitter modules that you can use to interact
