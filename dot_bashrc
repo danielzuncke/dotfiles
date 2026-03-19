@@ -157,7 +157,8 @@ case "$XDG_DATA_DIRS" in
 esac
 
 # Set PATH so it includes user's private bin if it exists.
-add_to_path "$HOME/.local/bin"
+add_to_path "${HOME}/.local/bin"
+add_to_path "${HOME}/.local/bin/scripts"
 
 # Extra bin's
 
@@ -176,8 +177,11 @@ if command -v ldc2 >/dev/null; then
 fi
 
 # Go
-# Set GOPATH for local packages in .config with: go env -w "${XDG_DATA_HOME}/go"
+# Set GOPATH for local packages in .config with:
 add_to_path "/usr/local/go/bin"
+# go env -w GOPATH="${XDG_DATA_HOME}/go" (only needs to be set once).
+# Add go programs to PATH; where $GOPATH/bin points (set in .config/go/env).
+add_to_path "${XDG_DATA_HOME}/go/bin"
 
 # Adjust PS1 for subshells that would be easy to forget (don't show multiple
 # times in nested shells).

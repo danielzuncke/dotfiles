@@ -20,8 +20,11 @@ user_name="{{ .chezmoi.username }}"
 is_linger="$(loginctl show-user "$user_name" --property=Linger 2>/dev/null)"
 if [ "$is_linger" != "Linger=yes" ]; then
 	cat <<-'EOF'
-Systemd lingering is not enabled for user (units get terminated on logoff).
-To enable: sudo loginctl enable-linger "$user_name"
+Systemd lingering is not enabled for user (units get terminated on logoff).  To
+enable:
+
+  $ sudo loginctl enable-linger "$(whoami)"
+
 This may have unforseen consequences such as daemons not being terminated and
 running forever (ex. gpg).
 EOF
