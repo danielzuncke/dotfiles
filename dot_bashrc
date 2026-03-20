@@ -294,7 +294,7 @@ fi
 if [ -d "${HOME}/dev" ]; then
 	alias cdd='cd "${HOME}/dev"'
 	if [ -d "${HOME}/dev/tmp" ]; then
-		alias cdt='cd "${HOME}/dev/tmp'
+		alias cdt='cd "${HOME}/dev/tmp"'
 	fi
 fi
 if command -v tmux >/dev/null; then

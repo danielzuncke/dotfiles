@@ -80,8 +80,11 @@ vim.o.confirm = true
 vim.o.winborder = 'rounded' -- floating windows get a border
 
 -- [[ Basic Keymaps ]]
-
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+-- TESTING: these might be cursed, let's see:
+vim.keymap.set('i', '<C-j>', '<Esc>o')
+vim.keymap.set('i', '<C-f>;', '<Esc>A;<Esc>')
+vim.keymap.set('i', '<C-f>j', '<Esc>A;<Esc>o')
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
@@ -223,37 +226,12 @@ require('lazy').setup({
       -- Useful for getting pretty icons, but requires a Nerd Font.
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
+    -- [[ Telescope and related ]]
     config = function()
-      -- Telescope is a fuzzy finder that comes with a lot of different things that
-      -- it can fuzzy find! It's more than just a "file finder", it can search
-      -- many different aspects of Neovim, your workspace, LSP, and more!
-      --
-      -- The easiest way to use Telescope, is to start by doing something like:
-      --  :Telescope help_tags
-      --
-      -- After running this command, a window will open up and you're able to
-      -- type in the prompt window. You'll see a list of `help_tags` options and
-      -- a corresponding preview of the help.
-      --
-      -- Two important keymaps to use while in Telescope are:
+      -- Telescope show help in Telescope window (similar to which key):
       --  - Insert mode: <c-/>
       --  - Normal mode: ?
-      --
-      -- This opens a window that shows you all of the keymaps for the current
-      -- Telescope picker. This is really useful to discover what Telescope can
-      -- do as well as how to actually do it!
-
-      -- [[ Configure Telescope ]]
       require('telescope').setup {
-        -- You can put your default mappings / updates / etc. in here
-        --  All the info you're looking for is in `:help telescope.setup()`
-        --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        -- },
-        -- pickers = {}
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -535,13 +513,8 @@ require('lazy').setup({
           }
         end
       end,
-      formatters_by_ft = {
+      formatters_by_ft = { -- can run multiple in a row
         lua = { 'stylua' },
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
-        -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
       },
     },
   },
@@ -565,15 +538,7 @@ require('lazy').setup({
           return 'make install_jsregexp'
         end)(),
         dependencies = {
-          -- `friendly-snippets` contains a variety of premade snippets.
-          --    See the README about individual language/framework/plugin snippets:
-          --    https://github.com/rafamadriz/friendly-snippets
-          -- {
-          --   'rafamadriz/friendly-snippets',
-          --   config = function()
-          --     require('luasnip.loaders.from_vscode').lazy_load()
-          --   end,
-          -- },
+          -- ex. use 'rafamadriz/friendly-snippets' for premade snippets
         },
         opts = {},
       },
@@ -583,49 +548,18 @@ require('lazy').setup({
     --- @type blink.cmp.Config
     opts = {
       keymap = {
-        -- 'default' (recommended) for mappings similar to built-in completions
-        --   <c-y> to accept ([y]es) the completion.
-        --    This will auto-import if your LSP supports it.
-        --    This will expand snippets if the LSP sent a snippet.
-        -- 'super-tab' for tab to accept
-        -- 'enter' for enter to accept
-        -- 'none' for no mappings
-        --
-        -- For an understanding of why the 'default' preset is recommended,
-        -- you will need to read `:help ins-completion`
-        --
-        -- No, but seriously. Please read `:help ins-completion`, it is really good!
-        --
-        -- All presets have the following mappings:
-        -- <tab>/<s-tab>: move to right/left of your snippet expansion
-        -- <c-space>: Open menu or open docs if already open
-        -- <c-n>/<c-p> or <up>/<down>: Select next/previous item
-        -- <c-e>: Hide menu
-        -- <c-k>: Toggle signature help
-        --
-        -- See :h blink-cmp-config-keymap for defining your own keymap
-        -- NOTE: 3 lines below were my previous settings:
-        -- preset = 'default',
-        -- ['<Tab>'] = { 'fallback' },
-        -- ['<S-Tab>'] = { 'fallback' },
-
+        -- Snippets forward, backward and select (=> jump to next $1 $2 ...) is
+        -- probably deactivated by this atm.
+        -- Also: have not found where scroll_documentation_up/down is used.
         preset = 'none',
         ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
         ['<C-e>'] = { 'hide', 'fallback' },
         ['<C-y>'] = { 'select_and_accept', 'fallback' },
 
-        ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
-        ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
-
         ['<C-n>'] = { 'select_next', 'fallback_to_mappings' },
         ['<C-p>'] = { 'select_prev', 'fallback_to_mappings' },
-        ['<C-N>'] = { 'snippet_forward', 'fallback_to_mappings' },
-        ['<C-P>'] = { 'snippet_backward', 'fallback_to_mappings' }, -- used to open command search in windows terminal
 
         ['<C-k>'] = { 'show_signature', 'hide_signature', 'fallback' },
-
-        -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
-        --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
       },
 
       appearance = {
@@ -633,8 +567,6 @@ require('lazy').setup({
       },
 
       completion = {
-        -- By default, you may press `<c-space>` to show the documentation.
-        -- Optionally, set `auto_show = true` to show the documentation after a delay.
         documentation = { auto_show = false, auto_show_delay_ms = 500 },
       },
 
@@ -650,11 +582,7 @@ require('lazy').setup({
       -- Blink.cmp includes an optional, recommended rust fuzzy matcher,
       -- which automatically downloads a prebuilt binary when enabled.
       --
-      -- By default, we use the Lua implementation instead, but you may enable
-      -- the rust implementation via `'prefer_rust_with_warning'`
-      --
-      -- See :h blink-cmp-config-fuzzy for more information
-      fuzzy = { implementation = 'lua' },
+      fuzzy = { implementation = 'rust' }, -- external binary; use 'lua' otherwise
 
       -- Shows a signature help window while you type arguments for a function
       signature = { enabled = true },
@@ -735,12 +663,17 @@ require('lazy').setup({
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup { n_lines = 500 }
 
+      -- STATUSLINE
+      -- Usually copied the default one with minimal adjustments.
       local statusline = require 'mini.statusline'
-      -- set use_icons to true if you have a Nerd Font
       statusline.setup { use_icons = vim.g.have_nerd_font }
-      ---@diagnostic disable-next-line: duplicate-set-field
-      statusline.section_location = function()
-        return '%L | %2l:%-2v'
+      -- Copied function from mini.statusline and %l current-line from long version.
+      --- @diagnostic disable-next-line: duplicate-set-field
+      statusline.section_location = function(args)
+        if MiniStatusline.is_truncated(args.trunc_width) then
+          return '%l│%2v'
+        end
+        return '%L│%2v|%-2{virtcol("$") - 1}'
       end
     end,
   },
@@ -755,43 +688,24 @@ require('lazy').setup({
         enable = true,
         additional_vim_regex_highlighting = { 'ruby' },
       },
-      -- TODO: had indent problem with go on other device, see if this fixes it
-      indent = { enable = true, disable = { 'd', 'go', 'ruby' } },
+      indent = { enable = false },
     },
-    -- TODO: test these and enable or remove this block.
-    -- There are additional nvim-treesitter modules that you can use to interact
-    -- with nvim-treesitter. You should go explore a few and see what interests you:
-    --
-    --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-    --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-    --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+  },
+  {
+    'nvim-treesitter/nvim-treesitter-context',
   },
 
-  -- TODO: test these and enable or remove this block.
-  -- NOTE: Next step on your Neovim journey: Add/Configure additional plugins for Kickstart
-  --
-  --  Here are some example plugins that I've included in the Kickstart repository.
-  --  Uncomment any of the lines below to enable them (you will need to restart nvim).
-  --
-  -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
-  -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
-
-  -- NOTE: If something gets significantly easier when being modularized, use
-  -- this:
-  --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
+  -- require 'kickstart.plugins.debug', -- TODO: Test workflow with this.
+  -- require 'kickstart.plugins.lint', -- Keep this at least as a reminder.
+  -- require 'kickstart.plugins.gitsigns', -- TODO: this one (maybe odd or no keymaps); just want preview / undo / ... hunk in nvim
+  -- NOTE: might need some config
+  require 'kickstart.plugins.autopairs',
+  -- NOTE: If something gets significantly easier when being modularized, use:
   -- { import = 'custom.plugins' },
-
   {
     'Aasim-A/scrollEOF.nvim',
     event = { 'CursorMoved', 'WinScrolled' },
     opts = {},
-  },
-  {
-    'nvim-treesitter/nvim-treesitter-context',
   },
 }, {
   ui = {
@@ -815,18 +729,13 @@ require('lazy').setup({
   },
 })
 
--- TODO: these still need to be sorted and are copied from old nvim conf
-local personal_group = vim.api.nvim_create_augroup('personal-extensions', {
-  clear = true,
-})
+-- Maybe: add my autocmd's commands to a group 'personal' or something?
+
 -- If nvim is started like this "nvim path/to/dir", set the cwd of that nvim
--- process to the given dir (otherwise it opens that dir, but cwd is that of the
--- caller).
--- TODO: same thing for files in different dir?
--- nvim ../other/file.txt => like: "(cd ../other && nvim file.txt)"
+-- process to the given dir (otherwise it opens that dir, but cwd is that of
+-- the caller).
 vim.api.nvim_create_autocmd('VimEnter', {
   desc = 'Set nvim cwd to dir that was given as arg.',
-  group = personal_group,
   callback = function()
     local args = vim.fn.argv()
     if #args == 1 and vim.fn.isdirectory(args[1]) == 1 then
@@ -843,5 +752,7 @@ vim.filetype.add {
   },
 }
 
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
+-- Folding based on treesitter => set up after treesitter
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+vim.opt.foldlevelstart = 99
