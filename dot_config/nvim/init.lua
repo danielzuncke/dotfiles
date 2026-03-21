@@ -82,9 +82,12 @@ vim.o.winborder = 'rounded' -- floating windows get a border
 -- [[ Basic Keymaps ]]
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- TESTING: these might be cursed, let's see:
+-- Windows terminal merges C-o and C-O so use alt instead; also add the
+-- semicolon-up for symmetry.
 vim.keymap.set('i', '<C-j>', '<Esc>o')
-vim.keymap.set('i', '<C-f>;', '<Esc>A;<Esc>')
-vim.keymap.set('i', '<C-f>j', '<Esc>A;<Esc>o')
+vim.keymap.set('i', '<M-j>', '<Esc>O')
+vim.keymap.set('i', '<C-o>', '<Esc>A;<Esc>o')
+vim.keymap.set('i', '<M-o>', '<Esc>A;<Esc>O')
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
