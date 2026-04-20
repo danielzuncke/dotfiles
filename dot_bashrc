@@ -313,6 +313,11 @@ if command -v fx >/dev/null; then
 	export FX_NO_MOUSE=
 fi
 
+# C-z stops the current program and brings you to shell; M-z now executes 'fg'
+# and brings back the current program (leading space so 'fg' isn't in bash
+# history):
+bind '"\ez":"\C-e\C-u fg\n"'
+
 #
 # Local settings to load late (not tracked in dotfiles).
 #
