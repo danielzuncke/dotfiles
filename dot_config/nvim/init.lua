@@ -687,6 +687,9 @@ require('lazy').setup({
     event = { 'CursorMoved', 'WinScrolled' },
     opts = {},
   },
+
+  -- Only allow a subset of modeline directives such as set filetype
+  'ypcrts/securemodelines',
 }, {
   ui = {
     icons = vim.g.have_nerd_font and {} or {
