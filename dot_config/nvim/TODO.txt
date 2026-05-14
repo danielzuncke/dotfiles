@@ -3,22 +3,5 @@ get a rewrap like tool to reflow comments / text into 80 char width
 - selection: do on selection (like V 10j gc)
 - do on <vim-motion> (like gc<5j>)
 ---
-MAYBE:
-Show lsp suggestions on C-Space in normal mode instead of motion:word
--> either lsp actions (fix imports, ...) or same as insert mode
----
 Add highglighting for '{TODO,NOTE,...} (.*):'
----
-add some shortcuts for word editing that work inside of insert mode (delete
-word forward backword, jump word forward backword etc.)
----
-I hvae <leader>st -> :TodoTelescope<CR>
-Would be nice to search all, not just TODO (maybe ignore NOTE:, as those don't
-require action; but BUG: HACK: ...)
----
-Keymap changes:
-- tab , S-tab: entab, detab ; remove tab from accepting lsp suggestion
-  (tab exclusively as indentation level, any alignments go with Space)
-  - same tab behavior in insert and normal mode => use 5<tab> instead of >5>
-- suggestions: remove <return> from accepting
-- only accept with C-y
+(without the : after; currently arr out of bounds access)
