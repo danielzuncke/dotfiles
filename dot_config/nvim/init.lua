@@ -621,11 +621,15 @@ do
     -- Enable syntax highlighting and other treesitter features
     vim.treesitter.start(buf, language)
 
-    local has_indent_query = vim.treesitter.query.get(language, 'indents') ~= nil
-
-    -- Enable treesitter based indentation
-    if has_indent_query then
-      vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    -- treesitter based indentation: if available and not disabled below
+    local disabled = {
+      bash = true,
+    }
+    if not disabled[language] then
+      local has_indent_query = vim.treesitter.query.get(language, 'indents') ~= nil
+      if has_indent_query then
+        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      end
     end
   end
 
@@ -701,4 +705,15 @@ do
       end
     end,
   })
+
+  -- User command to reload config
+  vim.api.nvim_create_user_command('ReloadConfig', function()
+    for name, _ in pairs(package.loaded) do
+      if name:match '^config' then
+        package.loaded = nil
+      end
+    end
+    dofile(vim.env.MYVIMRC)
+    print 'Config reloaded'
+  end, {})
 end

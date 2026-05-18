@@ -182,6 +182,20 @@ add_to_path "/usr/local/go/bin"
 # Add go programs to PATH; where $GOPATH/bin points (set in .config/go/env).
 add_to_path "${XDG_DATA_HOME}/go/bin"
 
+# Rust
+# I have moved it out of ~.
+tmp="${XDG_DATA_HOME}/cargo"
+if [ -d "$tmp" ]; then
+	export CARGO_HOME="$tmp"
+	add_to_path "${tmp}/bin"
+fi
+tmp="${XDG_DATA_HOME}/rustup"
+if [ -d "$tmp" ]; then
+	export RUSTUP_HOME="$tmp"
+	add_to_path "${tmp}/bin"
+fi
+unset tmp
+
 # Adjust PS1 for subshells that would be easy to forget (don't show multiple
 # times in nested shells).
 if [ "$CHEZMOI" = "1" ]; then
