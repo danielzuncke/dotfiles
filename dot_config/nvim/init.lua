@@ -600,6 +600,14 @@ do
     'c',
     'd',
     'diff',
+    'git_config',
+    'git_rebase',
+    'gitcommit',
+    'gitignore',
+    'go',
+    'gomod',
+    'gosum',
+    'gotmpl',
     'html',
     'lua',
     'luadoc',
@@ -610,6 +618,10 @@ do
     'vimdoc',
   }
   require('nvim-treesitter').install(parsers)
+
+  -- grammar helper
+  vim.pack.add { { src = gh 'romus204/tree-sitter-manager.nvim' } }
+  require('tree-sitter-manager').setup {}
 
   ---@param buf integer
   ---@param language string
