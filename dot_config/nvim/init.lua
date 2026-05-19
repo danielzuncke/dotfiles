@@ -529,6 +529,19 @@ do
     formatters_by_ft = {
       lua = { 'stylua' },
     },
+    formatters = {
+      stylua = {
+        prepend_args = {
+          '--no-editorconfig',
+          '--indent-type',
+          'Spaces',
+          '--indent-width',
+          '2',
+          '--quote-style',
+          'AutoPreferSingle',
+        },
+      },
+    },
   }
 
   vim.keymap.set({ 'n', 'v' }, '<leader>f', function()
