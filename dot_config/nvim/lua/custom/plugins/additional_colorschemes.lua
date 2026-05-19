@@ -21,3 +21,5 @@ vim.pack.add {
   gh 'MrSloth-dev/Switcheroo.nvim',
 }
 require('Switcheroo').setup()
+
+vim.cmd.colorscheme 'kanagawa'

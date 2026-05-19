@@ -23,7 +23,7 @@ add_to_path() {
 	return 1
 }
 
-tmp="${HOME}/.bashrc_chezmoi_generated" 
+tmp="${HOME}/.bashrc_chezmoi_generated"
 if [ -f "$tmp" ]; then
 	. "$tmp"
 fi
@@ -89,7 +89,7 @@ if [ -n "$dz_os_name" ]; then
 		*ubuntu*) ps1_os_color="01;31" ;; # red
 		*arch*)   ps1_os_color="01;36" ;; # cyan
 		*)        ps1_os_color="01;32" ;; # green
-	esac		
+	esac
 fi
 
 if [ "$color_prompt" = yes ]; then

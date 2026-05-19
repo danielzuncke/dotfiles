@@ -252,20 +252,19 @@ do
   -- [[ mini.nvim ]]
   vim.pack.add { gh 'nvim-mini/mini.nvim' }
 
-  -- TODO: reduce this comment when learned (yiiq ?)
-  -- Better Around/Inside textobjects, ex
-  --  - yiiq - [Y]ank [I]nside [I]+1 [Q]uote
+  require('mini.cmdline').setup() -- TODO: not yet set up to work well with regular suggestions and selection
+  require('mini.surround').setup()
+  require('mini.trailspace').setup()
+
   require('mini.ai').setup {
-    -- TODO: learn about this:
-    -- Note: Avoid conflicts with the built-in incremental selection mappings on Neovim>=0.12 (see `:help treesitter-incremental-selection`)
+    -- Note: Avoid conflicts with the built-in incremental selection mappings
+    -- on Neovim>=0.12 (see `:help treesitter-incremental-selection`).
     mappings = {
       around_next = 'aa',
       inside_next = 'ii',
     },
     n_lines = 500,
   }
-
-  require('mini.surround').setup()
 
   local statusline = require 'mini.statusline'
   statusline.setup { use_icons = vim.g.have_nerd_font }

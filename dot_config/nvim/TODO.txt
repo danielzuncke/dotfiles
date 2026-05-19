@@ -1,7 +1,2 @@
-get a rewrap like tool to reflow comments / text into 80 char width
-- no selection: single line (like gcc)
-- selection: do on selection (like V 10j gc)
-- do on <vim-motion> (like gc<5j>)
----
 Add highglighting for '{TODO,NOTE,...} (.*):'
 (without the : after; currently arr out of bounds access)
