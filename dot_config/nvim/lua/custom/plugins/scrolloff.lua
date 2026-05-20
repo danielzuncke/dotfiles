@@ -6,10 +6,13 @@ local function gh(repo)
   return 'https://github.com/' .. repo
 end
 
-vim.pack.add { gh 'Aasim-A/scrollEOF.nvim' }
--- TODO: when scrollEOF is patched, move this into init.lua (or comment out)
-vim.o.scrolloff = math.floor(vim.api.nvim_win_get_height(0) / 3)
-require('scrollEOF').setup({relative_scrolloff = 3})
--- Alternatively: hot reload the vim.o.scrolloff instead of caching so that
--- users can create an Autocmd to update on 'Win{Resized,Enter}', but that
--- seems more hacky instead of having the plugin offer a bit more.
+-- TODO: use official when merged (dev contains all the branches).
+vim.pack.add { {
+  src = gh 'danielzuncke/scrollEOF.nvim',
+  version = 'dev',
+} }
+-- vim.pack.add { gh 'Aasim-A/scrollEOF.nvim' }
+require('scrollEOF').setup {
+  insert_mode = true,
+  relative_scrolloff = 3,
+}
