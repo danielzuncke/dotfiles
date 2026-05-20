@@ -35,6 +35,8 @@ do
 
   vim.o.number = true
   vim.o.relativenumber = true
+  -- Will be overwritten by scrolloff plugin (if available).
+  vim.o.scrolloff = math.floor(vim.api.nvim_win_get_height(0) / 3)
 
   vim.o.mouse = 'a'
   vim.o.showmode = false
