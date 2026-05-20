@@ -230,6 +230,7 @@ alias ls='ls -FG' # G=color, F=trailing type indicator (dir=/ exe=*, ...)
 if command -v eza >/dev/null; then
 	# Reminder to myself: --icons flag exists
 	alias l='eza'
+	alias tree='eza --tree'
 else
 	alias l='ls'
 fi
