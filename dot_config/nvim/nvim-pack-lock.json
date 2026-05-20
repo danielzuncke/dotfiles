@@ -83,8 +83,9 @@
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
     "scrollEOF.nvim": {
-      "rev": "e462b9a07b8166c3e8011f1dcbc6bf68b67cd8d7",
-      "src": "https://github.com/Aasim-A/scrollEOF.nvim"
+      "rev": "4dcc7670b324824ce149fdfd2559e8acfacee34a",
+      "src": "https://github.com/danielzuncke/scrollEOF.nvim",
+      "version": "'dev'"
     },
     "securemodelines": {
       "rev": "53227da8bb2e286501969d3e6180c2b5b21b27e0",
