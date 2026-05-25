@@ -27,9 +27,9 @@ tmp="${HOME}/.bashrc_chezmoi_generated"
 if [ -f "$tmp" ]; then
 	. "$tmp"
 fi
-tmp=
+unset tmp
 case "${dz_os_name,,}" in
-	mac) eval `/usr/lib/path_helper -s`;;
+	mac*) eval "$(/usr/libexec/path_helper -s)";;
 	*);;
 esac
 
