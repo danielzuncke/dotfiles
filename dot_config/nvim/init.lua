@@ -43,6 +43,7 @@ do
 
   -- TODO: kickstart nvim is different, maybe I can get a better solution? current one is broken with tmux
   -- vim.schedule(function() vim.o.clipboard = 'unnamedplus' end)
+  -- TODO: otherwise generate for OS with chezmoi
   vim.schedule(function()
     vim.g.clipboard = {
       name = 'WslClipboard',
@@ -517,6 +518,7 @@ do
     format_on_save = function(bufnr)
       local enabled_filetypes = { -- ft for autoformat on save
         lua = true,
+        go = true,
       }
       if enabled_filetypes[vim.bo[bufnr].filetype] then
         return { timeout_ms = 500 }
