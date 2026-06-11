@@ -164,15 +164,15 @@ add_to_path "${HOME}/.local/bin/scripts"
 
 # Dlang: add compilers (latest installed, ldc over dmd) to PATH.
 if [ -d "${HOME}/dlang" ]; then
-                nullglob_prev=$(shopt -p nullglob)
-                shopt -s nullglob
-                tmp=( "${HOME}/dlang/"{dmd,ldc}-* )
-                if [ ${#tmp[@]} -gt 0 ]; then
-                                latest_d="$(printf '%s\n' "${tmp[@]}" | sort --reverse | head -n 1)"
-                                export PATH="${latest_d}/bin:${PATH}"
-                fi
-                eval "$nullglob_prev"
-                tmp=
+	nullglob_prev=$(shopt -p nullglob)
+	shopt -s nullglob
+	tmp=( "${HOME}/dlang/"{dmd,ldc}-* )
+	if [ ${#tmp[@]} -gt 0 ]; then
+			latest_d="$(printf '%s\n' "${tmp[@]}" | sort --reverse | head -n 1)"
+			export PATH="${latest_d}/bin:${PATH}"
+	fi
+	eval "$nullglob_prev"
+	unset tmp
 fi
 
 # Go
