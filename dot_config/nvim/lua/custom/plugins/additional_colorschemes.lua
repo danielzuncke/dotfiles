@@ -22,4 +22,4 @@ vim.pack.add {
 }
 require('Switcheroo').setup()
 
-vim.cmd.colorscheme 'kanagawa'
+vim.cmd.colorscheme 'kanagawa-dragon'

@@ -137,6 +137,10 @@ do
       vim.hl.on_yank()
     end,
   })
+
+  vim.opt.wildmode = { 'noselect:lastused', 'full' }
+  vim.opt.wildoptions = 'pum' -- overwrite once blink.cmp is available
+  vim.opt.pumheight = 16
 end
 
 -- ============================================================
@@ -255,7 +259,6 @@ do
   -- [[ mini.nvim ]]
   vim.pack.add { gh 'nvim-mini/mini.nvim' }
 
-  require('mini.cmdline').setup() -- TODO: not yet set up to work well with regular suggestions and selection
   require('mini.surround').setup()
   require('mini.trailspace').setup()
 
@@ -569,7 +572,7 @@ do
   require('blink.cmp').setup {
     keymap = {
       -- Snippets forward, backward and select (=> jump to next $1 $2 ...) is
-      -- probably deactivated by this atm.
+      -- probably deactivated by this atm (supposed to for now).
       -- Also: have not found where scroll_documentation_up/down is used.
       preset = 'none',
       ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
@@ -590,18 +593,35 @@ do
     sources = {
       default = { 'lsp', 'path', 'snippets' },
     },
+    fuzzy = { implementation = 'rust' },
+    signature = { enabled = true },
 
     -- TODO: add my own snippets (or wherever, ... want my snippets)
     snippets = { preset = 'luasnip' },
-
-    -- Blink.cmp includes an optional, recommended rust fuzzy matcher,
-    -- which automatically downloads a prebuilt binary when enabled.
-    -- If unavailable use 'lua'.
-    fuzzy = { implementation = 'rust' },
-
-    -- Shows a signature help window while you type arguments for a function
-    signature = { enabled = true },
   }
+
+  -- Have cmdline suggestions use blink.cmp automatically.
+  vim.api.nvim_create_autocmd('CmdlineChanged', {
+    pattern = [=[[:/\?]]=],
+    callback = function()
+      require('blink.cmp').show()
+    end,
+  })
+  local search_group = vim.api.nvim_create_augroup('SearchCmdlinePum', { clear = true })
+  vim.api.nvim_create_autocmd('CmdlineEnter', {
+    group = search_group,
+    pattern = [=[[/\?]]=],
+    callback = function()
+      vim.opt.pumheight = 8
+    end,
+  })
+  vim.api.nvim_create_autocmd('CmdlineLeave', {
+    group = search_group,
+    pattern = [=[[/\?]]=],
+    callback = function()
+      vim.opt.pumheight = vim.go.pumheight
+    end,
+  })
 end
 
 -- ============================================================
