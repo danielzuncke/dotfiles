@@ -166,12 +166,21 @@ add_to_path "${HOME}/.local/bin/scripts"
 if [ -d "${HOME}/dlang" ]; then
 	nullglob_prev=$(shopt -p nullglob)
 	shopt -s nullglob
-	tmp=( "${HOME}/dlang/"{dmd,ldc}-* )
+	# ldc
+	tmp=( "${HOME}/dlang/ldc-"* )
 	if [ ${#tmp[@]} -gt 0 ]; then
-			latest_d="$(printf '%s\n' "${tmp[@]}" | sort --reverse | head -n 1)"
-			export PATH="${latest_d}/bin:${PATH}"
+		latest_d="$(printf '%s\n' "${tmp[@]}" | sort --reverse | head -n 1)"
+		export PATH="${latest_d}/bin:${PATH}"
+		alias ldc=ldc2
+	fi
+	# dmd
+	tmp=( "${HOME}/dlang/dmd-"* )
+	if [ ${#tmp[@]} -gt 0 ]; then
+		latest_d="$(printf '%s\n' "${tmp[@]}" | sort --reverse | head -n 1)"
+		export PATH="${latest_d}/bin:${PATH}"
 	fi
 	eval "$nullglob_prev"
+	unset latest_d
 	unset tmp
 fi
 
@@ -327,6 +336,13 @@ if command -v fx >/dev/null; then
 	export FX_NO_MOUSE=
 fi
 
+if command -v 'batgrep' >/dev/null; then
+	alias brep='batgrep'
+fi
+if command -v zoxide >/dev/null; then
+	eval "$(zoxide init bash)"
+fi
+
 # C-z stops the current program and brings you to shell; M-z now executes 'fg'
 # and brings back the current program (leading space so 'fg' isn't in bash
 # history):
@@ -340,13 +356,9 @@ if [ -f "${HOME}/.bashrc_local_late" ]; then
 fi
 
 #
-# Must come after sourcing scripts to prevent braking dependencies on common
+# Should come after sourcing scripts to prevent braking dependencies on common
 # programs.
 #
-
-if command -v 'batgrep' >/dev/null; then
-	alias grep='batgrep'
-fi
 if command -v 'batdiff' >/dev/null; then
 	alias diff='batdiff'
 fi

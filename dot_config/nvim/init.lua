@@ -253,8 +253,24 @@ do
   }
   vim.cmd.colorscheme 'tokyonight-night'
 
-  vim.pack.add { gh 'folke/todo-comments.nvim' } -- TODO, BUG, ... highlights
+  -- TODO, BUG, ... highlights and setting keymap:
+  -- ]t [t :  next / prev TODO
+  -- ]x [x :  next / prev TODO-like (TODO, FIXME, WARNING, any recognized)
+  vim.pack.add { gh 'folke/todo-comments.nvim' }
   require('todo-comments').setup { signs = false }
+  local todo = require 'todo-comments'
+  vim.keymap.set('n', ']t', function()
+    todo.jump_next { keywords = { 'TODO' } }
+  end, { desc = 'Next TODO' })
+  vim.keymap.set('n', '[t', function()
+    todo.jump_prev { keywords = { 'TODO' } }
+  end, { desc = 'Previous TODO' })
+  vim.keymap.set('n', ']x', function()
+    todo.jump_next {}
+  end, { desc = 'Next TODO-like' })
+  vim.keymap.set('n', '[x', function()
+    todo.jump_prev {}
+  end, { desc = 'Previous TODO-like' })
 
   -- [[ mini.nvim ]]
   vim.pack.add { gh 'nvim-mini/mini.nvim' }
@@ -324,7 +340,7 @@ do
   vim.keymap.set('n', '<leader>st', ':TodoTelescope<CR>', { desc = "[S]earch [T]odo's" })
 
   vim.keymap.set('n', '<leader>sf', function()
-    builtin.find_files { hidden = true }
+    builtin.find_files { hidden = true, file_ignore_patterns = { '^.git/' } }
   end, { desc = '[S]earch [F]iles' })
   vim.keymap.set('n', '<leader>sF', function()
     builtin.find_files { no_ignore = true, hidden = true }
