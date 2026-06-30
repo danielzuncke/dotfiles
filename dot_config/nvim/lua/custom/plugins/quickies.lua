@@ -12,3 +12,6 @@ end
 vim.pack.add { gh 'Bekaboo/deadcolumn.nvim' }
 vim.pack.add { gh 'ypcrts/securemodelines' }
 vim.pack.add { gh 'nvim-treesitter/nvim-treesitter-context' }
+vim.pack.add { gh 'stevearc/oil.nvim' }
+require('oil').setup()
+vim.keymap.set('n', '-', '<leader><CMD>Oil<CR>', { desc = 'Open parent directory' })
