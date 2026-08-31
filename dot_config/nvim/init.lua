@@ -517,7 +517,12 @@ do
 
   -- auto install LSP's
   require('mason').setup {}
-  local ensure_installed = vim.tbl_keys(servers or {})
+  local ensure_installed = {} -- = vim.tbl_keys(servers or {})
+  for name, server in pairs(servers) do
+    if not server.cmd then
+      table.insert(ensure_installed, name)
+    end
+  end
   -- Here: can only add by name, if require vim.lsp.config, they need to go
   -- into the 'servers' table.
   vim.list_extend(ensure_installed, {
