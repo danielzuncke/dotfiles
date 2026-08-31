@@ -460,7 +460,14 @@ do
   local servers = {
     clangd = {},
     serve_d = {
+      cmd = { 'serve-d' },
       filetypes = { 'd', 'di', 'sdl' },
+      -- When compilers installed with dlang's install.sh: the ldc and dmd dirs
+      -- have none of the default root_markers, so it's not indexed once the
+      -- stdlib source files are entered => stdlib is not navigatable with lsp
+      -- help.
+      -- Add root_markers for ldc2 dir (import) and dmd dir (phobos).
+      root_markers = { 'dub.json', 'dub.sdl', '.git', 'import', 'phobos' },
     },
     gopls = {},
 
