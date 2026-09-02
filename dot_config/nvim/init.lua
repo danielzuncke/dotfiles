@@ -458,7 +458,9 @@ do
 
   -- Enable the following language servers (list gets auto installed)
   local servers = {
-    clangd = {},
+    clangd = {
+      cmd = { 'clangd', '--function-arg-placeholders=0' },
+    },
     serve_d = {
       cmd = { 'serve-d' },
       filetypes = { 'd', 'di', 'sdl' },
@@ -519,7 +521,11 @@ do
   require('mason').setup {}
   local ensure_installed = {} -- = vim.tbl_keys(servers or {})
   for name, server in pairs(servers) do
-    if not server.cmd then
+    if server.cmd then
+      if vim.fn.executable(server.cmd[1]) == 0 then
+        table.insert(ensure_installed, name)
+      end
+    else
       table.insert(ensure_installed, name)
     end
   end
