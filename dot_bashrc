@@ -311,7 +311,23 @@ if command -v git >/dev/null; then
 	alias dot='git -C "$(chezmoi source-path)"'
 	alias dots='git -C "$(chezmoi source-path)" status'
 	alias dotl='git -C "$(chezmoi source-path)" lg' # log + format
-fi
+
+	gi() {
+		if [ ! -d .git ]; then
+			return
+		fi
+		git add .
+		git -c 'commit.gpgSign=false' \
+			commit -m "commit to move between WSL and win"
+		git push
+	}
+	gp() {
+		if [ ! -d .git ]; then
+			return
+		fi
+		git pull
+	}
+	fi
 fi
 
 if [ -d "${HOME}/dev" ]; then
@@ -361,4 +377,10 @@ fi
 #
 if command -v 'batdiff' >/dev/null; then
 	alias diff='batdiff'
+fi
+
+if command -v 'bat' >/dev/null; then
+	bap() {
+		bat -p "$@"
+	}
 fi
