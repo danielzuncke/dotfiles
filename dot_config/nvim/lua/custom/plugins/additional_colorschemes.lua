@@ -20,6 +20,6 @@ vim.pack.add {
   gh 'nvim-telescope/telescope.nvim',
   gh 'MrSloth-dev/Switcheroo.nvim',
 }
-require('Switcheroo').setup()
-
 vim.cmd.colorscheme 'kanagawa-dragon'
+
+require('Switcheroo').setup()
