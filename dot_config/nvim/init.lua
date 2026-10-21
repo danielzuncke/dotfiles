@@ -383,7 +383,15 @@ do
       -- This is where a variable was first declared, or where a function is defined, etc.
       -- To jump back, press <C-t>.
       vim.keymap.set('n', 'grd', builtin.lsp_definitions, { buffer = buf, desc = '[G]oto [D]efinition' })
-
+      -- new tab with go to definition split view
+      vim.keymap.set('n', 'grsd', function()
+        vim.cmd 'tab split' -- duplicate current buffer in new tab
+        vim.cmd 'vsplit' -- create right-hand window
+        builtin.lsp_definitions()
+      end, {
+        buffer = buf,
+        desc = '[G]oto Definition in New Tab [S]plit',
+      })
       -- Fuzzy find all the symbols in your current document.
       -- Symbols are things like variables, functions, types, etc.
       vim.keymap.set('n', 'gO', builtin.lsp_document_symbols, { buffer = buf, desc = 'Open Document Symbols' })
@@ -798,4 +806,19 @@ do
     dofile(vim.env.MYVIMRC)
     print 'Config reloaded'
   end, {})
+
+  -- Indentation and Tabs
+  -- indent in different modes; note: currently no good way to insert mid-line tab
+  vim.keymap.set('n', '<Tab>', '>>', { desc = 'Indent line' })
+  vim.keymap.set('i', '<Tab>', '<C-t>', { desc = 'Indent line' })
+  vim.keymap.set('v', '<Tab>', '>gv', { desc = 'Indent selection' })
+  -- de-indent in different modes
+  vim.keymap.set('n', '<S-Tab>', '<<', { desc = 'Unindent line' })
+  vim.keymap.set('i', '<S-Tab>', '<C-d>', { desc = 'Unindent line' })
+  vim.keymap.set('v', '<S-Tab>', '<gv', { desc = 'Unindent selection' })
+  -- new tab and close
+  vim.keymap.set({ 'n', 'i', 'v' }, '<C-t>', '<cmd>tabnew<CR>', { desc = 'Open current buffer in new tab' })
+  vim.keymap.set({ 'n', 'i' }, '<M-w>', '<cmd>tabclose<CR>', { desc = 'Close current tab' })
+  -- new tab same buffer
+  vim.keymap.set({ 'n', 'i', 'v' }, '<M-t>', '<cmd>tab split<CR>', { desc = 'Open current buffer in new tab' })
 end
