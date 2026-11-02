@@ -171,7 +171,11 @@ if [ -d "${HOME}/dlang" ]; then
 	if [ ${#tmp[@]} -gt 0 ]; then
 		latest_d="$(printf '%s\n' "${tmp[@]}" | sort --reverse | head -n 1)"
 		export PATH="${latest_d}/bin:${PATH}"
-		alias ldc=ldc2
+		tmp2="${latest_d}/bin/ldc"
+		if [ ! -f "$tmp2" ]; then
+			ln -s "${latest_d}/bin/ldc2" "tmp2"
+		fi
+		unset tmp2
 	fi
 	# dmd
 	tmp=( "${HOME}/dlang/dmd-"* )
