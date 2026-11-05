@@ -173,7 +173,7 @@ if [ -d "${HOME}/dlang" ]; then
 		export PATH="${latest_d}/bin:${PATH}"
 		tmp2="${latest_d}/bin/ldc"
 		if [ ! -f "$tmp2" ]; then
-			ln -s "${latest_d}/bin/ldc2" "tmp2"
+			ln -s "${latest_d}/bin/ldc2" "$tmp2"
 		fi
 		unset tmp2
 	fi
