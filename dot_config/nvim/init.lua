@@ -817,7 +817,7 @@ do
   vim.keymap.set('i', '<S-Tab>', '<C-d>', { desc = 'Unindent line' })
   vim.keymap.set('v', '<S-Tab>', '<gv', { desc = 'Unindent selection' })
   -- new tab and close
-  vim.keymap.set({ 'n', 'i', 'v' }, '<C-t>', '<cmd>tabnew<CR>', { desc = 'Open current buffer in new tab' })
+  vim.keymap.set({ 'n', 'i', 'v' }, '<C-t>', '<cmd>tabnew<CR>', { desc = 'Open new tab' })
   vim.keymap.set({ 'n', 'i' }, '<M-w>', '<cmd>tabclose<CR>', { desc = 'Close current tab' })
   -- new tab same buffer
   vim.keymap.set({ 'n', 'i', 'v' }, '<M-t>', '<cmd>tab split<CR>', { desc = 'Open current buffer in new tab' })
