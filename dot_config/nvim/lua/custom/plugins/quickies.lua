@@ -14,4 +14,14 @@ vim.pack.add { gh 'ypcrts/securemodelines' }
 vim.pack.add { gh 'nvim-treesitter/nvim-treesitter-context' }
 vim.pack.add { gh 'stevearc/oil.nvim' }
 require('oil').setup()
-vim.keymap.set('n', '-', '<leader><CMD>Oil<CR>', { desc = 'Open parent directory' })
+
+-- If inside a buffer that isn't associated with a path, Oil does nothing if
+-- not handled manually.
+vim.keymap.set('n', '-', function()
+  local path = vim.fn.expand '%'
+  if path == '' then
+    vim.cmd('Oil' .. vim.fn.getcwd())
+  else
+    vim.cmd 'Oil'
+  end
+end, { desc = 'Open parent directory' })
