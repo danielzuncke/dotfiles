@@ -88,11 +88,20 @@ do
 
   -- [[ Basic Keymaps ]]
   vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
-  -- Doesn't work consistently, I have not yet figured out why.
-  vim.keymap.set('i', '<C-j>', '<Esc>o')
-  vim.keymap.set('i', '<M-j>', '<Esc>O') -- this one is the offender
-  vim.keymap.set('i', '<C-o>', '<Esc>A;<Esc>o')
-  vim.keymap.set('i', '<M-o>', '<Esc>A;<Esc>O')
+
+  local function open_above(semicolon)
+    return function()
+      local row = vim.api.nvim_win_get_cursor(0)[1]
+      if row == 1 then
+        return (semicolon and '<Esc>A;<Esc>O' or '<Esc>O')
+      end
+      return (semicolon and '<End>;' or '') .. '<Up><End><CR>'
+    end
+  end
+  vim.keymap.set('i', '<C-j>', '<End><CR>')
+  vim.keymap.set('i', '<M-j>', open_above(false), { expr = true })
+  vim.keymap.set('i', '<C-o>', '<End>;<CR>')
+  vim.keymap.set('i', '<M-o>', open_above(true), { expr = true })
 
   vim.diagnostic.config {
     update_in_insert = false,
