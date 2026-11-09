@@ -1,0 +1,9 @@
+# Update D style from Phobos.
+# Dev name of pleach was `dormat`, didn't update it yet to parse new config path, just the bin name for the nvim config.
+
+width = 80
+indent_style = tab
+tab_width = 4
+
+include 'preset:styles/aligned_assignments'
+include 'preset:styles/aligned_operators'
