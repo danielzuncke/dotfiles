@@ -487,6 +487,10 @@ do
       -- help.
       -- Add root_markers for ldc2 dir (import) and dmd dir (phobos).
       root_markers = { 'dub.json', 'dub.sdl', '.git', 'import', 'phobos' },
+      on_init = function(client)
+        client.server_capabilities.documentFormattingProvider = false
+        client.server_capabilities.documentRangeFormattingProvider = false
+      end,
     },
     gopls = {},
 
@@ -586,6 +590,7 @@ do
     },
     formatters_by_ft = {
       lua = { 'stylua' },
+      d = { 'pleach' },
     },
     formatters = {
       stylua = {
@@ -599,12 +604,24 @@ do
           'AutoPreferSingle',
         },
       },
+      pleach = {
+        command = 'pleach',
+        args = { '--stdin-filename', '$FILENAME' },
+        stdin = true,
+        range_args = function(_, ctx)
+          return { '--stdin-filename', '$FILENAME', '--lines', ctx.range.start[1] .. ':' .. ctx.range['end'][1] }
+        end,
+      },
     },
   }
 
-  vim.keymap.set({ 'n', 'v' }, '<leader>f', function()
+  vim.keymap.set({ 'n' }, '<leader>f', function()
     require('conform').format { async = true }
   end, { desc = '[F]ormat buffer' })
+  vim.keymap.set('v', '<leader>f', function()
+    require('conform').format { async = true }
+    vim.api.nvim_input '<Esc>' -- leave visual mode, as after a yank
+  end, { desc = '[F]ormat selection' })
 end
 
 -- ============================================================
@@ -723,6 +740,7 @@ do
     -- treesitter based indentation: if available and not disabled below
     local disabled = {
       bash = true,
+      d = true,
     }
     if not disabled[language] then
       local has_indent_query = vim.treesitter.query.get(language, 'indents') ~= nil
